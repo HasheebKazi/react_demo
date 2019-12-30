@@ -1,11 +1,21 @@
+// core imports + libraries
 import React, { Component } from 'react';
+
+// components
+import Layout from '../components/Layout/Layout';
+import BurgerBuilder from './BurgerBuilder/BurgerBuilder';
+
+// css imports
 import classes from './App.module.css';
 
 class App extends Component {
     render() {
         return (
-            <div className="App">
-                <h1 className={classes.App}>Hello World!</h1>
+            <div className={classes.App}>
+                <Layout>
+                    <p>Hello World.</p>
+                    <BurgerBuilder />
+                </Layout>
             </div>
         );
     }
