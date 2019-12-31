@@ -8,16 +8,33 @@ import classes from './BuildControls.module.css';
 
 const buildControls = (props) => {
 
-
-    let ingredientList = Object.keys(props.ingredients);
+    let keyCounter = 5000;
+    let ingredientList = Object.keys(props.ingredientList);
     let controls = [];
     ingredientList.forEach((igKey) => {
-        controls.push(<BuildControl label={igKey} clickMore={props.clickMore} clickLess={props.clickLess} />)
+        controls.push(
+            <BuildControl 
+                key={keyCounter++}
+                label={props.ingredientList[igKey]} 
+                clickMore={() => { props.clickMore(igKey) }} 
+                clickLess={() => { props.clickLess(igKey) }} 
+                disabled={props.disabled[igKey]}
+            />
+        );
     });
 
     return (
         <div className={classes.BuildControls}>
+            <p>Current Price: <strong>{props.price.toFixed(2)}</strong></p>
             {controls}
+            <button 
+                className={ classes.OrderButton }
+                disabled={!props.purchaseable}
+                onClick={props.orderNow}
+            >
+                {props.inOrderModal ? 'Click anywhere to cancle the order' : 'Order Now'}
+                
+            </button>
         </div>
     );
 }

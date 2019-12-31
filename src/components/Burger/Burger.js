@@ -9,12 +9,12 @@ import BurgerIngredients from './BurgerIngredient/BurgerIngredients';
 import classes from './Burger.module.css';
 
 const burger = (props) => {
-
+    let keyCounter = 6000;
     let burgerIngredientList = [];
     Object.keys(props.ingredients).forEach((ingredientKey) => {
         let count = props.ingredients[ingredientKey];
         while (count > 0) {
-            burgerIngredientList.push(<BurgerIngredients type={ingredientKey}/>);
+            burgerIngredientList.push(<BurgerIngredients key={keyCounter++} type={ingredientKey}/>);
             count--;
         }
     });

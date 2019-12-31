@@ -106,8 +106,13 @@
 }
 
 .Bacon {
+    margin: -100px 0;
     width: 80%;
-    height: 3%;
-    background: linear-gradient(#bf3813, #c45e38);
+    height: 25%;
+    /* background: linear-gradient(#bf3813, #c45e38); */
     margin: 2% auto;
+    background-image: url('../../../assets/bacon-clipart-emoji-2.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    /* transform: rotate(90deg); */
 }

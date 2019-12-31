@@ -7,9 +7,20 @@ const buildControl = (props) => {
     return (
         <div className={classes.BuildControl}>
             <div className={classes.Label}>{props.label}</div>
-            <button className={classes.Less} onClick={ () => { props.clickLess(props.label) }}>Less</button>
-            <button className={classes.More} onClick={ () => { props.clickMore(props.label) }}>More</button>
-        </div>
+            <button 
+                className={[classes.BuildControl__button, classes.Less].join(' ')} 
+                onClick={ props.clickLess }
+                disabled={props.disabled}
+            >
+                Less
+            </button>
+            <button 
+                className={[classes.BuildControl__button, classes.More].join(' ')} 
+                onClick={ props.clickMore } 
+            >
+                More
+            </button>
+        </div> 
     );
 }
 
