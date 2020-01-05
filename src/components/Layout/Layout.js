@@ -1,5 +1,5 @@
 // core imports + libraries
-import React from 'react';
+import React, { Component } from 'react';
 
 // component imports
 // import Aux from '../../HOC/Aux';
@@ -9,16 +9,31 @@ import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 // css imports
 import classes from './Layout.module.css';
 
-const layout = (props) => {
-    return (
-        <React.Fragment>
-            <ToolBar />
-            <SideDrawer />
-            <main className={classes.Content}>
-                {props.children}
-            </main>
-        </React.Fragment>
-    );
+class Layout extends Component {
+
+    state = {
+        showSideDrawer: false
+    }
+
+    sideDrawerToggleHandler = () => {
+        this.setState((prevState) => {
+            return { showSideDrawer: !prevState.showSideDrawer };
+        });
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <ToolBar 
+                    hbClick={this.sideDrawerToggleHandler} 
+                />
+                <SideDrawer open={this.state.showSideDrawer} closed={this.sideDrawerToggleHandler}/>
+                <main className={classes.Content}>
+                    {this.props.children}
+                </main>
+            </React.Fragment>
+        );
+    }
 }
 
-export default layout;
+export default Layout;
