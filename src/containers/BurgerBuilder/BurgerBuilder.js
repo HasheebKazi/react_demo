@@ -20,12 +20,7 @@ import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler';
 class BurgerBuilder extends Component {
 
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
+        ingredients: null,
         ingredientList: {
             salad: 'Salad',
             bacon: 'Bacon',
@@ -41,7 +36,19 @@ class BurgerBuilder extends Component {
         totalPrice: 0.2,
         purchaseable: false,
         purchasing: false,
-        loading: false
+        loading: false,
+        error: false
+    }
+
+    componentDidMount() {
+        axios_orders.get('https://react-burger-builder-b96cb.firebaseio.com/ingredients.json')
+        .then(response => {
+            this.setState({ingredients: response.data});
+        })
+        .catch(error => {
+            this.setState({error: true});
+            console.log(error);
+        });
     }
 
     purchaseHandler = () => {
@@ -115,12 +122,35 @@ class BurgerBuilder extends Component {
             ...this.state.ingredients
         };
 
-        let orderSummary = <OrderSummary 
-            cancelPurchase={this.purchaseHandler}
-            continuePurchase={this.purchaseContinueHandler}
-            ingredients={this.state.ingredients}
-            price={this.state.totalPrice}
-        />;
+        let orderSummary = null;
+
+        let burger = this.state.error ? <p style={{textAlign: "center", margin: "50px", fontSize: "20px"}}>Catastrophic Failure</p> : <Spinner />;
+
+        if (this.state.ingredients) {
+            burger = (
+                <React.Fragment>
+                    <Burger ingredients={this.state.ingredients} />
+                    <BuildControls 
+                        ingredients={this.state.ingredients} 
+                        ingredientList={this.state.ingredientList}
+                        clickMore={ this.addIngredientClickListener.bind(this) } 
+                        clickLess={ this.removeIngredientClickListener.bind(this) } 
+                        disabled={disableInfo}
+                        purchaseable={this.state.purchaseable}
+                        price={this.state.totalPrice}
+                        orderNow={this.purchaseHandler}
+                        inOrderModal={this.state.purchasing}
+                    />
+                </React.Fragment>
+            );
+
+            orderSummary = <OrderSummary 
+                cancelPurchase={this.purchaseHandler}
+                continuePurchase={this.purchaseContinueHandler}
+                ingredients={this.state.ingredients}
+                price={this.state.totalPrice}
+            />;
+        }
 
         if (this.state.loading) {
             orderSummary = <Spinner />;
@@ -135,18 +165,7 @@ class BurgerBuilder extends Component {
                 <Modal show={this.state.purchasing} clickBackdrop={this.purchaseHandler}>
                     {orderSummary}
                 </Modal>
-                <Burger ingredients={this.state.ingredients} />
-                <BuildControls 
-                    ingredients={this.state.ingredients} 
-                    ingredientList={this.state.ingredientList}
-                    clickMore={ this.addIngredientClickListener.bind(this) } 
-                    clickLess={ this.removeIngredientClickListener.bind(this) } 
-                    disabled={disableInfo}
-                    purchaseable={this.state.purchaseable}
-                    price={this.state.totalPrice}
-                    orderNow={this.purchaseHandler}
-                    inOrderModal={this.state.purchasing}
-                />
+                {burger}
             </React.Fragment>
         );
     }
