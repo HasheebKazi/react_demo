@@ -1,5 +1,6 @@
 // core imports + libraries
 import React from 'react';
+// import { withRouter } from 'react-router-dom';
 
 // component imports
 // import Aux from '../../HOC/Aux';
@@ -32,4 +33,5 @@ const burger = (props) => {
     );
 }
 
+// export default withRouter(burger);
 export default burger;
