@@ -10,6 +10,12 @@
     }
 }
 
+@media (min-width: 800px) {
+    .CheckoutSummary {
+        width: 700px;
+    }
+}
+
 .Burger {
     width: 100%;
     margin: auto;

@@ -1,0 +1,45 @@
+.InputContainer {
+    width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.Label {
+    width: 80%;
+    margin: 0 auto 8px auto;
+    padding: 5px;
+
+    display: block;
+    box-sizing: border-box;
+    
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+
+    background-color: white;
+}
+
+.Input {
+    
+    width: 80%;
+    padding: 5px;
+    margin: 2px auto 2px auto;
+
+
+    display: block;
+    box-sizing: border-box;
+    
+    border: none;
+    border-bottom: 1px solid #ccc;
+    
+    font-size: 15px;
+    color: blue
+
+}
+
+.Input:focus,
+.Input:active {
+    outline: none;
+    border-bottom: 1px solid green;
+}
