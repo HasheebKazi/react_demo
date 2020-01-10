@@ -43,3 +43,40 @@
     outline: none;
     border-bottom: 1px solid green;
 }
+
+
+.Select {
+    
+    width: 80%;
+    padding: 5px;
+    margin: 2px auto 2px auto;
+
+
+    display: block;
+    box-sizing: border-box;
+    
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: white;
+    
+    font-size: 15px;
+}
+
+.Select:focus,
+.Select:active {
+    outline: none;
+    border-bottom: 1px solid green;
+}
+
+.InvalidInput {
+    
+    border-bottom: 1px solid red;
+    color: red; 
+
+}
+
+.InvalidInput:focus,
+.InvalidInput:active {
+    outline: none;
+    border-bottom: 1px solid red;
+}
