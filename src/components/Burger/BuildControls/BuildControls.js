@@ -14,11 +14,11 @@ const buildControls = (props) => {
     ingredientList.forEach((igKey) => {
         controls.push(
             <BuildControl 
-                key={keyCounter++}
-                label={props.ingredientList[igKey]} 
-                clickMore={() => { props.clickMore(igKey) }} 
-                clickLess={() => { props.clickLess(igKey) }} 
-                disabled={props.disabled[igKey]}
+                key={ keyCounter++ }
+                label={ props.ingredientList[igKey] } 
+                clickMore={ () => props.clickMore(igKey) } 
+                clickLess={ () => props.clickLess(igKey) } 
+                disabled={ props.disabled[igKey] }
             />
         );
     });
@@ -29,8 +29,8 @@ const buildControls = (props) => {
             {controls}
             <button 
                 className={ classes.OrderButton }
-                disabled={!props.purchaseable}
-                onClick={props.orderNow}
+                disabled={ !props.purchaseable }
+                onClick={ props.orderNow }
             >
                 {props.inOrderModal ? 'Click anywhere to cancle the order' : 'Order Now'}
                 
