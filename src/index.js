@@ -10,13 +10,15 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import burgerBuilderReducer from './store/reducers/burgerBuilderReducer';
+import orderReducer from './store/reducers/orderReducer';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-    burgerBuilder: burgerBuilderReducer
+    burgerBuilder: burgerBuilderReducer,
+    orders: orderReducer
 });
 // enable redux debugger
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
