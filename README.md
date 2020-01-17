@@ -9,7 +9,7 @@ Below you will find the project details.
 
 ## Introduction
 
-This is a demo project built using this [tutorial](https://www.udemy.com/course/react-the-complete-guide-incl-redux/) by Maximilian Schwarzmüller and Maximilian Schwarzmüller. 
+This is a demo project built using this [tutorial](https://www.udemy.com/course/react-the-complete-guide-incl-redux/) by Maximilian Schwarzmüller and Maximilian Schwarzmüller. Topics Include: React Components, WebPack, Component Life Cycle functions, React Hooks...
 <!-- 
 ## More Info
  -->
