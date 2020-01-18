@@ -1,4 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../util/util';
+
 
 const initialState = {
     orders: [],
@@ -14,51 +16,22 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.PURCHASE_INIT:
-            return {
-                ...state,
-                purchased: false
-            };
+            return updateObject(state, { purchased: false });
         case actionTypes.PURCHASE_BURGER_START:
-            return {
-                ...state,
-                loading: true
-            };
+            return updateObject(state, { loading: true });
         case actionTypes.PURCHASE_BURGER_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                    error: false,
-                    purchased: true,
-                    orders: state.orders.concat({
-                        ...action.orderData,
-                        id: action.orderId
-                    })
-            };
+            return updateObject(state, { loading: false, error: false, purchased: true, orders: state.orders.concat({
+                ...action.orderData,
+                id: action.orderId
+            })});
         case actionTypes.PURCHASE_BURGER_FAIL:
-            return {
-                ...state,
-                error: true
-            };
-
+            return updateObject(state, { error: true });
         case actionTypes.GET_ORDERS_START:
-            return {
-                ...state,
-                ordersPageLoading: true,
-                ordersPageError: false
-            };
+            return updateObject(state, { ordersPageLoading: true, ordersPageError: false });
         case actionTypes.GET_ORDERS_FAIL:
-            return {
-                ...state,
-                ordersPageLoading: false,
-                ordersPageError: true
-            };
+            return updateObject(state, { ordersPageLoading: false, ordersPageError: true });
         case actionTypes.GET_ORDERS_SUCCESS:
-            return {
-                ...state,
-                orders: action.orders,
-                ordersPageLoading: false,
-            };
-
+            return updateObject(state, { orders: action.orders, ordersPageLoading: false, });
         default:
             return state
     }
