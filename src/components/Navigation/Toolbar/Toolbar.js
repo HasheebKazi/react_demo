@@ -11,16 +11,16 @@ import classes from './Toolbar.module.css';
 const toolbar = (props) => {
     return (
         <header className={classes.Toolbar}>
-            {/* <div className={classes.MobileOnly} > */}
+            <div className={classes.MobileOnly} >
                 <Hamburger
-                    hbClick={props.hbClick} 
+                    hbClick={props.drawerToggleClicked} 
                 />
-            {/* </div> */}
+            </div>
             <div className={classes.Logo}>
                 <Logo />
             </div>
             <nav className={[classes.Toolbar__nav, classes.DesktopOnly].join(' ')}>
-                <NavigationItems />
+                <NavigationItems isAuthenticated={ props.isAuthenticated } />
             </nav>
         </header>
     );

@@ -13,6 +13,7 @@ const sideDrawer = (props) => {
     if (props.open) {
         attachedClasses[1] = "classes.Open";
     }
+    
     return (
         <React.Fragment>
             <Backdrop show={props.open} clicked={props.closed} />
@@ -21,7 +22,7 @@ const sideDrawer = (props) => {
                     <Logo/>
                 </div>  
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={ props.isAuthenticated } />
                 </nav>
             </div>
         </React.Fragment>
