@@ -8,10 +8,6 @@ const input = (props) => {
     let inputElem = null;
 
     const inputClasses = [classes.Input];
-
-    console.log(props.elementType, 'is valid', props.valid);
-    console.log(props.elementType, 'should validate', props.shouldValidate);
-    console.log(props.elementType, 'is touched', props.touched);
     
     if (!props.valid && props.shouldValidate && props.touched) {
         inputClasses.push(classes.InvalidInput);
