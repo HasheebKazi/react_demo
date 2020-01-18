@@ -149,7 +149,7 @@ class ContactData extends Component {
             price: this.props.price,
             order: formData
         };
-
+        order['authToken'] = this.props.authToken;
         this.props.onOrderBurger(order);
         return false;
     }
@@ -223,7 +223,8 @@ const mapStateToProps = state => {
         ingredients: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.price,
         loading: state.orders.loading,
-        purchased: state.orders.purchased
+        purchased: state.orders.purchased,
+        authToken: state.auth.authData.token
     };
 };
 

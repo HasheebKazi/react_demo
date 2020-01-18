@@ -18,7 +18,8 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 class Orders extends Component {
 
     componentDidMount() {
-        this.props.onGetOrders();
+        console.log(this.props.authToken);
+        this.props.onGetOrders(this.props.authToken);
     }
 
     render() {
@@ -43,13 +44,14 @@ const mapStateToProps = state => {
     console.log('adsfasd', state.orders.orders)
     return {
         orders: state.orders.orders,
-        loading: state.orders.ordersPageLoading
+        loading: state.orders.ordersPageLoading,
+        authToken: state.auth.authData.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetOrders: () => dispatch(getOrders())
+        onGetOrders: (authToken) => dispatch(getOrders({ authToken: authToken }))
     };
 };
 

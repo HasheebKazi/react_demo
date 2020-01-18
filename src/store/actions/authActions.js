@@ -23,6 +23,21 @@ const authStart = () => {
     };
 };
 
+export const logout = () => {
+    return {
+        type: actionTypes.AUTH_END
+    };
+};
+
+const checkAuthTimeout = (expirationTime) => {
+    console.log(expirationTime);
+    return (dispatch) => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime*1000);
+    };
+};
+
 export const initAuth = (payload) => {
     return dispatch => {
 
@@ -47,9 +62,10 @@ export const initAuth = (payload) => {
             dispatch(authSuccess({
                 authData: response.data
             }));
+            dispatch(checkAuthTimeout(response.data.expiresIn));
         }).catch(error => {
             dispatch(authFail({
-                error: error
+                error: error.response.data.error
             }));
         });
     }

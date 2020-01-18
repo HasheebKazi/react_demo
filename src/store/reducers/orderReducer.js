@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
                 id: action.orderId
             })});
         case actionTypes.PURCHASE_BURGER_FAIL:
-            return updateObject(state, { error: true });
+            return updateObject(state, { error: true, loading: false });
         case actionTypes.GET_ORDERS_START:
             return updateObject(state, { ordersPageLoading: true, ordersPageError: false });
         case actionTypes.GET_ORDERS_FAIL:

@@ -12,7 +12,6 @@ const navigatioItems = () => {
             <NavigationItem link="/" exact>Burger Builder</NavigationItem>
             <NavigationItem link="/orders">Orders</NavigationItem>
             <NavigationItem link="/signin">Signin</NavigationItem>
-
         </ul>
     );
 };

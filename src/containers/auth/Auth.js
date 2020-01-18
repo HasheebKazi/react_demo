@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 // internal
 import { initAuth } from '../../store/actions/authActions';
-import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler';
-import axios from 'axios';
+// import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler';
+// import axios from 'axios';
 
 
 // react components
@@ -49,8 +49,8 @@ class Auth extends Component {
                 touched: false
             }
         },
-        formIsValid: true, // should be false
-        isSignup: true
+        formIsValid: false, // should be false
+        isSignup: false
 
     }
 
@@ -101,7 +101,7 @@ class Auth extends Component {
 
             formData[formElementIdentifier] = this.state.controls[formElementIdentifier].value;
         }
-        console.log(this.state.isSignup);
+
         formData['isSignup'] = this.state.isSignup;
 
         this.props.onLogin(formData);
@@ -119,19 +119,18 @@ class Auth extends Component {
         updatedFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
 
-        // let formIsValid = true;
-        // for (let inputIdentifier in updatedOrderForm) {
-        //     formIsValid = formIsValid && updatedOrderForm[inputIdentifier].valid;
-        // }
+        let formIsValid = true;
+        for (let inputIdentifier in updatedOrderForm) {
+            formIsValid = formIsValid && updatedOrderForm[inputIdentifier].valid;
+        }
  
         this.setState({ 
             controls: updatedOrderForm, 
-            // formIsValid: formIsValid 
+            formIsValid: formIsValid 
         });
     }
 
     render() {
-        console.log(this.props.authData);
         const formElementsArray = [];
         for (let key in this.state.controls) {
             formElementsArray.push({
@@ -167,10 +166,13 @@ class Auth extends Component {
                 </React.Fragment>
             );
         }
-
-
+        let errorMessage = null;
+        if (this.props.error) {
+            errorMessage = <p> {this.props.error.message} </p>
+        }
         return (
             <div className={ classes.LoginForm } >
+                { errorMessage }
                 { form }
             </div>
         );
@@ -192,4 +194,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStatetoProps, mapDispatchToProps)(withErrorHandler(Auth, axios));
+export default connect(mapStatetoProps, mapDispatchToProps)(Auth);
