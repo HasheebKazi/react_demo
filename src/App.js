@@ -1,6 +1,6 @@
 // core imports + libraries
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authCheckState } from './store/actions/index';
 
@@ -25,6 +25,25 @@ class App extends Component {
 
     render() {
 
+        let routes = (
+            <Switch>
+                <Route path="/signin" exact component={Auth } />
+                <Route path="/" exact component={BurgerBuilder } />
+                <Redirect to="/" />
+            </Switch>
+        );
+
+        if (this.props.isAuthenticated) {
+            routes = (
+                <Switch>
+                    <Route path="/signout" exact component={Logout } />
+                    <Route path="/checkout" component={Checkout } />
+                    <Route path="/orders" component={Orders } />
+                    <Route path="/" exact component={BurgerBuilder } />
+                    <Redirect to="/" />
+                </Switch>
+            );
+        }
 
         return (
             
@@ -32,13 +51,7 @@ class App extends Component {
 
                 < Layout >
 
-                    <Switch>
-                        <Route path="/signout" exact component={Logout } />
-                        <Route path="/signin" exact component={Auth } />
-                        <Route path="/checkout" component={Checkout } />
-                        <Route path="/orders" component={Orders } />
-                        <Route path="/" exact component={BurgerBuilder } />
-                    </Switch>
+                    { routes }
             
                 </Layout >
 
@@ -48,10 +61,16 @@ class App extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.authData.token !== null
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         onStart: () => dispatch(authCheckState())
     };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
