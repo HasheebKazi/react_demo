@@ -7,9 +7,9 @@ const initialState = {
     error: false,
     authData: {
         token: null,
-        userId: null,
-        email: null
-    }
+        userId: null
+    },
+    authRedirect: '/'
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,16 +19,16 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_SUCCESS:
             return updateObject(state, { loading: false, error: null, authData: {
                 token: action.authData['idToken'],
-                userId: action.authData['localId'],
-                email: action.authData['email']
+                userId: action.authData['localId']
             }});
         case actionTypes.AUTH_FAIL:
             return updateObject(state, { loading: false, error: action.error });
+        case actionTypes.AUTH_REDIRECT:
+            return updateObject(state, { authRedirect: action.url });
         case actionTypes.AUTH_END:
-            return updateObject({ loading: false, error: false, authData: {
+            return updateObject({ loading: false, error: null, authData: {
                 token: null,
-                userId: null,
-                email: null
+                userId: null
             }});
         default:
             return state

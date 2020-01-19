@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 // internal
-import { initAuth } from '../../store/actions/authActions';
+import { initAuth, authRedirect } from '../../store/actions/authActions';
 // import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler';
 // import axios from 'axios';
 
@@ -52,6 +53,12 @@ class Auth extends Component {
         formIsValid: false, // should be false
         isSignup: false
 
+    }
+
+    componentDidMount() {
+        if (!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
+            this.props.onSetAuthPath();
+        }
     }
 
     switchAuthModeHandler = () => {
@@ -140,10 +147,13 @@ class Auth extends Component {
         }
 
         let form = <Spinner />;
-        if (!this.props.loading) {
+        if (!this.props.loading && !this.props.isAuthenticated) {
+            // let errorMessage = null;
+            // if (this.props.error) {
+            //     errorMessage = <p> {this.props.error.message} </p>
+            // }
             form = (
-    
-                <React.Fragment>
+                <div className={ classes.LoginForm } >
                     <h4> { this.state.isSignup ? 'Enter your credentials to signup' : 'Enter your credentials to signin' } </h4>
                     <form>
                         {formElementsArray.map(formElement => (
@@ -163,19 +173,13 @@ class Auth extends Component {
                     </form>
                         <Button clicked={ this.switchAuthModeHandler } btnType="Danger"> { this.state.isSignup ? 'Switch to Signin' : 'Switch to Signup' } </Button>
                     
-                </React.Fragment>
+                </div>
             );
+        } else if (this.props.isAuthenticated) {
+            form = <Redirect to={ this.props.authRedirectPath } />
         }
-        let errorMessage = null;
-        if (this.props.error) {
-            errorMessage = <p> {this.props.error.message} </p>
-        }
-        return (
-            <div className={ classes.LoginForm } >
-                { errorMessage }
-                { form }
-            </div>
-        );
+
+        return form;
     }
 }
 
@@ -184,13 +188,16 @@ const mapStatetoProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
-        authData: state.auth.authData
+        isAuthenticated: state.auth.authData.token !== null,
+        buildingBurger: state.burgerBuilder.building,
+        authRedirectPath: state.auth.authRedirect
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLogin: (payload) =>  dispatch(initAuth(payload))
+        onLogin: (payload) =>  dispatch(initAuth(payload)),
+        onSetAuthPath: () => dispatch(authRedirect({ url: '/' }))
     };
 };
 

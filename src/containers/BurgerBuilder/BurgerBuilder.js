@@ -13,7 +13,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 // internal
-import { addIngredient, removeIngredient, initIngredients } from '../../store/actions/index';
+import { addIngredient, removeIngredient, initIngredients, authRedirect } from '../../store/actions/index';
 
 // HOC 
 import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler'; 
@@ -34,7 +34,14 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {
-        this.setState({purchasing: !this.state.purchasing});
+        if (this.props.isAuthenticated) {
+            this.setState((previousState) => {
+                return { purchasing: !previousState.purchasing }
+            });
+        } else {
+            this.props.onSetRedirectToPath('/checkout');
+            this.props.history.push('/signin');
+        }
     }
 
     // purchaseContinueHandler = () => {
@@ -97,6 +104,7 @@ class BurgerBuilder extends Component {
                         price={ this.props.totalPrice }
                         orderNow={this.purchaseHandler}
                         inOrderModal={this.state.purchasing}
+                        isAuthenticated={ this.props.isAuthenticated }
                     />
                 </React.Fragment>
             );
@@ -129,7 +137,8 @@ const mapStateToProps = state => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
-        error: state.error
+        error: state.error,
+        isAuthenticated: state.auth.authData.token !== null
     };
 };
 
@@ -137,7 +146,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onAddIngredient: (ingredientName) => dispatch(addIngredient({ ingredientName: ingredientName })),
         onRemoveIngredient: (ingredientName) => dispatch(removeIngredient({ ingredientName: ingredientName })),
-        onInitIngredients: () => dispatch(initIngredients())
+        onInitIngredients: () => dispatch(initIngredients()),
+        onSetRedirectToPath: (url) => dispatch(authRedirect({ url: url }))
     };
 };
 
