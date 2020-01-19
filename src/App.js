@@ -7,15 +7,24 @@ import { authCheckState } from './store/actions/index';
 // components
 import Layout from './HOC/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Checkout/Orders/Orders';
-import Auth from './containers/auth/Auth';
 import Logout from './containers/auth/Logout/Logout'
+
+// lazy loading
+import asyncComponent from './HOC/asyncComponent/asynComponent';
 
 // css imports
 import classes from './App.module.css';
 
-
+// initialize async components for lazy loading
+const asyncCheckout = asyncComponent(() => {
+    return import('./containers/Checkout/Checkout');
+});
+const asyncOrders = asyncComponent(() => {
+    return import('./containers/Checkout/Orders/Orders');
+});
+const asyncAuth = asyncComponent(() => {
+    return import('./containers/auth/Auth');
+});
 
 class App extends Component {
 
@@ -27,7 +36,7 @@ class App extends Component {
 
         let routes = (
             <Switch>
-                <Route path="/signin" exact component={Auth } />
+                <Route path="/signin" exact component={asyncAuth } />
                 <Route path="/" exact component={BurgerBuilder } />
                 <Redirect to="/" />
             </Switch>
@@ -36,10 +45,10 @@ class App extends Component {
         if (this.props.isAuthenticated) {
             routes = (
                 <Switch>
-                    <Route path="/signin" exact component={Auth } />
+                    <Route path="/signin" exact component={asyncAuth } />
                     <Route path="/signout" exact component={Logout } />
-                    <Route path="/checkout" component={Checkout } />
-                    <Route path="/orders" component={Orders } />
+                    <Route path="/checkout" component={asyncCheckout } />
+                    <Route path="/orders" component={asyncOrders } />
                     <Route path="/" exact component={BurgerBuilder } />
                     <Redirect to="/" />
                 </Switch>
