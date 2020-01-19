@@ -41,7 +41,6 @@ export const logout = () => {
 };
 
 const checkAuthTimeout = (expirationTime) => {
-    // console.log(expirationTime);
 
     return (dispatch) => {
         setTimeout(() => {
@@ -73,8 +72,6 @@ export const initAuth = (payload) => {
             password: password,
             returnSecureToken: true
         }).then(response => {
-            console.log('response data: ==========================', response.data);
-            // console.log('[AUTH_ACTIONS] POST initAuth, reponse:', response.data);
 
             const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
 

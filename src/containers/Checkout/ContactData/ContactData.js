@@ -132,7 +132,6 @@ class ContactData extends Component {
             const pattern = /^\d+$/;
             isValid = pattern.test(value) && isValid
         }
-        console.log(value, isValid);
         return isValid;
     }
 
@@ -143,14 +142,16 @@ class ContactData extends Component {
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
-
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,
-            order: formData
+            order: formData,
+            userId: this.props.userId
         };
-        order['authToken'] = this.props.authToken;
-        this.props.onOrderBurger(order);
+        this.props.onOrderBurger({
+            orderData: order,
+            authToken: this.props.authToken
+        });
         return false;
     }
 
@@ -221,16 +222,17 @@ class ContactData extends Component {
 const mapStateToProps = state => {
     return {
         ingredients: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.price,
+        price: state.burgerBuilder.totalPrice,
         loading: state.orders.loading,
         purchased: state.orders.purchased,
-        authToken: state.auth.authData.token
+        authToken: state.auth.authData.token,
+        userId: state.auth.authData.userId
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger({ orderData: orderData }))
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
     };
 };
 

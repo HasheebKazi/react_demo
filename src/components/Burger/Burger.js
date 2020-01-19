@@ -25,7 +25,6 @@ class Burger extends Component {
             }
         });
     
-        console.log('[BurgetBuilder]', burgerIngredientList);
     
         if (burgerIngredientList.length === 0) {
             burgerIngredientList = (<p>Please start adding ingredients.</p>);

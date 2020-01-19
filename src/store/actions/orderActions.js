@@ -71,9 +71,9 @@ const getOrdersStart = () => {
 export const getOrders = (payload) => {
     return dispatch => {
         dispatch(getOrdersStart());
-        axios_orders.get('/orders.json?auth=' + payload['authToken'])
+        const queryParams = '?auth=' + payload['authToken'] + '&orderBy="userId"&equalTo="' + payload['userId'] +'"'; 
+        axios_orders.get('/orders.json' + queryParams)
         .then(response => {
-            // console.log('response data:', response.data);
             const fetchedOrders = [];
             
             for (let key in response.data) {
@@ -82,7 +82,6 @@ export const getOrders = (payload) => {
                     id: key
                 });
             }
-            // console.log('fetched orders:', fetchedOrders);
             dispatch(getOrdersSuccess({
                 orders: fetchedOrders
             }));

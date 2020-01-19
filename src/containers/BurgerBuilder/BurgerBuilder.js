@@ -78,7 +78,6 @@ class BurgerBuilder extends Component {
         }).reduce((sum, element) => {
             return sum + element;
         }, 0);
-
         return sum > 0;
     }
 
@@ -101,7 +100,7 @@ class BurgerBuilder extends Component {
                         clickLess={ this.props.onRemoveIngredient } 
                         disabled={ disableInfo }
                         purchaseable={ this.updatePurchaseState(this.props.ingredients) }
-                        price={ this.props.totalPrice }
+                        price={ this.props.totalPrice.toFixed(2) }
                         orderNow={this.purchaseHandler}
                         inOrderModal={this.state.purchasing}
                         isAuthenticated={ this.props.isAuthenticated }
